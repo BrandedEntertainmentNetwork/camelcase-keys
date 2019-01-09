@@ -11,9 +11,12 @@ const camelCaseConvert = (input, options) => {
 		deep: false
 	}, options);
 
-	const {exclude} = options;
+	const {exclude, excludeFn} = options;
 
 	return mapObj(input, (key, value) => {
+		if (excludeFn && excludeFn(val)) {
+			return [key, val];
+		}
 		if (!(exclude && has(exclude, key))) {
 			if (cache.has(key)) {
 				key = cache.get(key);
